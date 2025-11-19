@@ -1,1 +1,3 @@
-# ibrahimamam1.github.io
+# RGB blog
+
+## blogs
