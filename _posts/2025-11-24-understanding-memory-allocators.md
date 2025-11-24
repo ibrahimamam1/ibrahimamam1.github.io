@@ -1,4 +1,8 @@
-# Understanding Memory Allocators 
+   ---
+   title: Understanding Memory Allocators
+   date: 2025-11-24
+   ---
+
 In my quest of understanding how systems work i built a very basic and simple memory allocator. If you are a beginner this might sound like a real tough thing to do but it really is not.
 
 A memory allocator is simply a program that manages the internal address space(memory layout) of a process. Huh?... Addres space? What is that? What we call address space is just a clever abstraction of physical memory that makes it easier for us to program. It is basically how a program sees memory when it is running. Every running procees has it's own address space(representation of memory) that belongs to it alone.
