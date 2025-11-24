@@ -6,6 +6,7 @@ A memory allocator is simply a program that manages the internal address space(m
 A process address space is divided into disctinct sections: the code, data, bss, stack and heap. You might have already heard of the stack and heap if you ever took a programming course.The stack is where local variables, functions return addresses and more are stored. The heap is the dynamically allocatable part of the memory and where dynamically allocated objects are stored.
 
 A process address space usually looks something like this:
+
 ![Address space](../assets/memcpp/address_space.png "Address Space Illustration")
 
 To know more about the code, data and bss sections go [here](https://mirzafahad.github.io/2021-05-08-text-data-bss/).
