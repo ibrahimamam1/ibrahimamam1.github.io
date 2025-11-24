@@ -25,7 +25,8 @@ The Simplest representation of a block you can find is something like this:
 
 #define MEM_BLOCK_SIZE sizeof(mem_block_t)   
 ```
-Each block has a free attribute which represents whether it has been allocated already or not, size attribute holds the address of the next block after it. 
+Each block has a free attribute which represents whether it has been allocated already or not, a size attribute representing the size of the block and a next pointer that holds the address of the next block after it.
+
 If for example the program requests a 64 byte block, a `mem_block_t` object will be instantiated and free will be set to false, size will be set to 64 and the starting address of the next block can easily be computed as the starting address of this block + the size of this block. The address of this block is then returned to the user and the space(64 bytes) between the two blocks is now reserved for use.
 
 A block in the heap looks like this in memory:
