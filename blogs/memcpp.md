@@ -1,4 +1,4 @@
-# Some title 
+# Understanding Memory Allocators 
 In my quest of understanding how systems work i built a very basic and simple memory allocator. If you are a beginner this might sound like a real tough thing to do but it really is not.
 
 A memory allocator is simply a program that manages the internal address space(memory layout) of a process. Huh?... Addres space? What is that? What we call address space is just a clever abstraction of physical memory that makes it easier for us to program. It is basically how a program sees memory when it is running. Every running procees has it's own address space(representation of memory) that belongs to it alone.
@@ -6,23 +6,9 @@ A memory allocator is simply a program that manages the internal address space(m
 A process address space is divided into disctinct sections: the code, data, bss, stack and heap. You might have already heard of the stack and heap if you ever took a programming course.The stack is where local variables, functions return addresses and more are stored. The heap is the dynamically allocatable part of the memory and where dynamically allocated objects are stored.
 
 A process address space usually looks something like this:
+![Address space](../assets/memcpp/address_space.png "Address Space Illustration")
 
-+---------------------------+
-|        Text / Code        |  (machine instructions)
-+---------------------------+
-|           Data            |  (initialized globals)
-+---------------------------+
-|            BSS            |  (uninitialized globals)
-+---------------------------+
-|           Heap            |  <-- grows upward
-|            .              |
-|            .              |
-+---------------------------+
-|           Stack           |  <-- grows downward
-+---------------------------+
-
-
-To know more about the code, data and bss sections go [here]{https://mirzafahad.github.io/2021-05-08-text-data-bss/}.
+To know more about the code, data and bss sections go [here](https://mirzafahad.github.io/2021-05-08-text-data-bss/).
 
 ## How Memory Allocators Work
 Memory Allocators are responsible for managing the heap. This is done by building an abstraction of the heap as a sequence of blocks of arbitrary size. The Memory allocator can then reserve blocks of any given size for your program, make them bigger or smaller, request more blocks from the os etc to meet the demands of your program.
@@ -43,18 +29,12 @@ If for example the program requests a 64 byte block, a `mem_block_t` object will
 
 A block in the heap looks like this in memory:
 
-+---------------------------+
-|     mem_block_t header    |  <-- metadata (free, size, next)
-+---------------------------+
-|         user data         |  <-- returned to program
-|           ...             |
-+---------------------------+
 
-And when blocks are chained:
+![Heap Block](../assets/memcpp/block.png "Block Illustration")
 
-+-----------+------+     +-----------+------+     +-----------+
-|  header   | data | --> |  header   | data | --> |  header   | ...
-+-----------+------+     +-----------+------+     +-----------+
+And when multiple blocks are chained:
+
+![Chained blocks](../assets/memcpp/chained_blocks.png "Chained blocks Illustration")
 
 ## Iniatializing memory pool
 
@@ -88,7 +68,7 @@ void* mem_alloc(size_t size){
 
 ```
 
-The pointer `head` is initialised to nullptr so the very first time the user calls `mem_alloc` the if statement evaluates to true and our `init_mem_pool` function is called. This function uses the `sbrk` system call to change the ending address of the heap. To know more about `sbrk` check the [man pages]{https://linux.die.net/man/2/sbrk}.
+The pointer `head` is initialised to nullptr so the very first time the user calls `mem_alloc` the if statement evaluates to true and our `init_mem_pool` function is called. This function uses the `sbrk` system call to change the ending address of the heap. To know more about `sbrk` check the [man pages](https://linux.die.net/man/2/sbrk).
 
 We request an initial block of 1024 bytes + `MEM_BLOCK_SIZE` to hold the metadata(size, free and next ptr). We then set all the attribute values to their defaults and that's it.
 
@@ -102,18 +82,13 @@ I implemented a first fit strategy because it is the simplest in my opinion. So 
 
 Before splitting (current block of size 100):
 
-+-----------------------------------------------------+
-|  header |                100 bytes free             |
-+-----------------------------------------------------+
+![Block Before Split](../assets/memcpp/block_before_split.png "Block Before Split Illustration")
 
 User requests 40 bytes.
 
 After splitting:
 
-+-----------------------+-----------------------------+
-| header | 40 bytes     | header | 60 bytes free |
-+-----------------------+-----------------------------+
- ^ allocated block        ^ new free block
+![Block After Split](../assets/memcpp/block_after_split.png "Block After Split Illustration")
 
 
 Here is the full code:
@@ -260,17 +235,7 @@ Great Job. Now our allocator supports alignment and can be considered a correct 
 ## Freeing Memory
 Every alloc function needs a free counterpart to release the memory when no longer in need. The free function has one simple job which is to mark the block as free. yep that's it. It doesn't need to return the memory to the OS since it might be needed again in the future. By simply marking it as free it becomes usable again within the program. One additional functionality is free is to do some house keeping, when memory is freed it should check if it is next to other free blocks. If it is then we can combine the free blogs into one to reduce internal fragmentation. This process is called Coalescing memory. Here it is what it visually looks like:
 
-Before freeing:
-
-[ allocated ] -> [  free  ] -> [ allocated ]
-
-After freeing the middle one:
-
-[ allocated ] -> [ free ] -> [ free ]
-
-Coalesce:
-
-[ allocated ] -> [      free (merged)      ]
+![Block Coalescing](../assets/memcpp/coalescing_blocks.png "Coalescing Blocks Illustration")
 
 
 Here is the full free code: 
@@ -317,13 +282,7 @@ As you must have noticed for aligned blocks we move the pointer 1 block back to 
 ## Missing Piece
 Great work if you made it this far. This allocator contains all the elements of what would be considered a correct allocator. However there is still one piece i deliberately left out for you to work on. That is thread safety. The current allocator is not thread safe. If a program running multiple threads tries to allocate memory concurently you are basically guaranteed to be screwed. How to fix that? Give it a try. 
 
-You can read about thread safety [here]{https://en.wikipedia.org/wiki/Thread_safety} or [here]{https://grokipedia.com/page/Thread_safety}. For the C++ specifics here is a [hint]{https://en.cppreference.com/w/cpp/language/raii.html}.
-You can also just read the full code [here]{https://github.com/ibrahimamam1/memcpp}
+You can read about thread safety [here](https://en.wikipedia.org/wiki/Thread_safety) or [here](https://grokipedia.com/page/Thread_safety). For the C++ specifics here is a [hint](https://en.cppreference.com/w/cpp/language/raii.html).
+You can also just read the full code [here](https://github.com/ibrahimamam1/memcpp)
 
 Thank you for reading. See you next time.
-## References
-- https://mirzafahad.github.io/2021-05-08-text-data-bss/
-- https://linux.die.net/man/2/sbrk
-- https://grokipedia.com/page/Thread_safety
-- https://en.wikipedia.org/wiki/Thread_safety
-- https://en.cppreference.com/w/cpp/language/raii.html
