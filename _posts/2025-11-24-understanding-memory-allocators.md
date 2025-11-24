@@ -1,7 +1,3 @@
-   ---
-   title: Understanding Memory Allocators
-   date: 2025-11-24
-   ---
 
 In my quest of understanding how systems work i built a very basic and simple memory allocator. If you are a beginner this might sound like a real tough thing to do but it really is not.
 
