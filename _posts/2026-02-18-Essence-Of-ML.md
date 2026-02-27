@@ -26,6 +26,7 @@ Suppose you have data on the price of wine based on its age. Your data might loo
 
 If we plot the data it looks like this:
 
+```
 Price ($)
   ^
 50|             x
@@ -35,9 +36,11 @@ Price ($)
 10|     x
   |__________________> Age
       1   2   3   4   5
+```
 
 The main idea of linear regression is to find the best straight line that can fit this data. With a proper equation for the straight line we can find the output value y (price) for any given input x (age). 
 
+```
 Price ($)
   ^
 50|             x  /
@@ -47,6 +50,7 @@ Price ($)
 10|     x  /
   |___/____________> Age
       1   2   3   4   5
+```
 
 Our model (also called hypothesis) is hence:
 
@@ -76,6 +80,7 @@ We should not fit a straight line to this data because we do not want continuous
 
 One function we could fit to this data is the sigmoid function which has output between 0 and 1.
 
+```
      1 |            ___________
        |           /
 P(y=1) |          /
@@ -84,6 +89,7 @@ P(y=1) |          /
      0 |_______/_________
        |       |
       Bad     Good
+```
 
 Since the output of a sigmoid is always between 0 and 1 it can be interpreted as the probability that the given input is from the positive class. If the value is greater than or equal to 0.5 we output 1 (Good) otherwise we output 0 (Bad). 
 
@@ -183,6 +189,7 @@ What makes SVMs special is that they have the capacity to learn a non-linear dec
 | 1  | 0  |     1     |
 | 1  | 1  |     0     |
 
+```
 x2
 ^
 |  1(x)    0(o)
@@ -190,9 +197,11 @@ x2
 |  0(o)    1(x)
 |____________> x1
    (No straight line can separate x and o)
+```
 
 There is no possible straight line that can accurately separate the two classes. The only possible way to separate the two classes is with a non-linear function.
 
+```
 x2
 ^
 |  1(x)  /  0(o)
@@ -201,6 +210,7 @@ x2
 |  0(o)  /  1(x)
 |_______/_____> x1
 (A non-linear boundary wraps around the classes)
+```
 
 What SVMs look for is the optimal hyperplane which separates the classes (this will be a straight line if the data is linearly separable). 
 
@@ -263,6 +273,7 @@ Unsupervised learning works on training data for which we do not have the ground
 ## K Means Clustering
 K-means is a clustering algorithm whose goal is to group similar data points together into clusters. Suppose we have the data:
 
+```
 Feature 2
   ^
   |   xx      oo
@@ -272,6 +283,7 @@ Feature 2
   |      ++
   |     +++
   |_________________> Feature 1
+```
 
 Given a value k, the goal of the algorithm is to form k distinct clusters each containing similar items. The algorithm is very straightforward:
 
@@ -389,6 +401,7 @@ Feature engineering is one step ahead of that, where we come up with our own fea
 
 This is the major problem of ML models; when they do not find the optimal model they tend to either underfit or overfit. Underfitting means the model did not learn the patterns in the data properly and hence makes wrong predictions. Overfitting on the other hand means the model memorised the patterns in the training data and cannot generalise to unseen data.
 
+```
 Error
   ^
   | \          /  <-- Test Error
@@ -400,9 +413,11 @@ Error
   |
   |____________________> Model Complexity
    Underfit   Optimum    Overfit
+```
 
 The symptom for underfitting is when the training loss is very high, meaning the model cannot make predictions even on the training data it is seeing.
 
+```
 Loss
   ^
   |------------------ Test Loss
@@ -410,9 +425,11 @@ Loss
   |------------------ Training Loss
   | (Both High)
   |____________________> Epochs
+```
 
 The symptom for overfitting is very low training loss but high test loss, which means the model does very well on the data it has memorised but cannot do well on unseen data.
 
+```
 Loss
   ^
   |        __________ Test Loss (High)
@@ -420,6 +437,7 @@ Loss
   |     /
   |____/_____________ Training Loss (Low)
   |____________________> Epochs
+```
 
 The reasons for underfitting include:
     - The model is too simple. Like fitting a straight line to data that has a quadratic relationship between features and target.
