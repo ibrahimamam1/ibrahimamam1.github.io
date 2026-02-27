@@ -137,16 +137,16 @@ That is softmax Regression.
 ## Gaussian Discriminant Analysis
 GDA is a binary classification algorithm but unlike all the previous algorithms it is what is called a Generative Learning Algorithm. 
 
-Logistic Regression and Softmax are a class of learning algorithms called Discriminative learning algorithms. Discriminative because they discriminate between a number of classes by modeling the probability $p(y|x)$.
+Logistic Regression and Softmax are a class of learning algorithms called Discriminative learning algorithms. Discriminative because they discriminate between a number of classes by modeling the probability $p(y\x)$.
 
-Generative Learning algorithms on the other hand model the probability $p(x|y)$. Having a model for $p(x|y)$ gives them the ability to generate new data points, hence the name Generative Learning algorithms.
+Generative Learning algorithms on the other hand model the probability $p(x\y)$. Having a model for $p(x\y)$ gives them the ability to generate new data points, hence the name Generative Learning algorithms.
 
-GDA assumes the distribution for $p(x|y)$ is Gaussian. This is not a far-fetched assumption as most of the data out there is Gaussian. However, if you know for a fact your data is definitely not Gaussian then GDA might fail and you probably should not use it. 
+GDA assumes the distribution for $p(x\y)$ is Gaussian. This is not a far-fetched assumption as most of the data out there is Gaussian. However, if you know for a fact your data is definitely not Gaussian then GDA might fail and you probably should not use it. 
 
-If $p(x|y)$ is Gaussian then using the Gaussian PDF we can compute:
+If $p(x\y)$ is Gaussian then using the Gaussian PDF we can compute:
 
-$$p(x|y=0) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_0)^T\Sigma^{-1}(x-\mu_0)\right)$$
-$$p(x|y=1) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1)\right)$$
+$$p(x\y=0) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_0)^T\Sigma^{-1}(x-\mu_0)\right)$$
+$$p(x\y=1) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1)\right)$$
 
 $$\mu_0 = \frac{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=0\} x^{(i)}}{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=0\}}$$
 
@@ -156,7 +156,7 @@ $$\Sigma = \frac{1}{m} \sum_{i=1}^m (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{
 
 With what we obtained we can apply Bayes Rule to find $p(y=1|x)$:
 
-$$p(y=1|x) = \frac{p(x|y=1) \cdot p(y=1)}{p(x)}$$
+$$p(y=1\x) = \frac{p(x|y=1) \cdot p(y=1)}{p(x)}$$
 
 $$\phi = \frac{1}{m} \sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\}$$
 
@@ -171,11 +171,11 @@ $$\phi_y = \frac{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\}}{m}$$
 
 $$\phi_{j|y=1} = \frac{\sum_{i=1}^m \mathbb{1}\{x_j^{(i)}=1 \land y^{(i)}=1\}}{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\}}$$
 
-$$p(y=1|x) = \frac{p(x|y=1)p(y=1)}{p(x)}$$
+$$p(y=1\x) = \frac{p(x\y=1)p(y=1)}{p(x)}$$
 
 Naive Bayes assumes that the features are conditionally independent:
 
-$$p(x|y) = \prod_{j=1}^{n} p(x_j|y)$$
+$$p(x\y) = \prod_{j=1}^{n} p(x_j\y)$$
 
 ## Support Vector Machines 
 Support vector machines are one of the most important algorithms in ML. They can be used both for classification and regression. 
@@ -300,7 +300,7 @@ The MoG algorithm extends the concepts of k-means to be probabilistic. Here we a
 
 First of all, if we had the labels we would know which Gaussian each datapoint belongs to and that would be the GDA algorithm we talked about earlier.
 
-We do not have the labels so we suppose there is a latent variable z which is not observed and the distribution of $x_i|z_i$ is: 
+We do not have the labels so we suppose there is a latent variable z which is not observed and the distribution of $x_i\z_i$ is: 
 
 $$z^{(i)} \sim \text{Multinomial}(\phi)$$
 $$x^{(i)}|z^{(i)}=j \sim \mathcal{N}(\mu_j, \Sigma_j)$$
