@@ -26,6 +26,7 @@ Suppose you have data on the price of wine based on its age. Your data might loo
 
 If we plot the data it looks like this:
 
+```
 Price ($)
   ^
 50|             x
@@ -35,9 +36,11 @@ Price ($)
 10|     x
   |__________________> Age
       1   2   3   4   5
+```
 
 The main idea of linear regression is to find the best straight line that can fit this data. With a proper equation for the straight line we can find the output value y (price) for any given input x (age). 
 
+```
 Price ($)
   ^
 50|             x  /
@@ -47,6 +50,7 @@ Price ($)
 10|     x  /
   |___/____________> Age
       1   2   3   4   5
+```
 
 Our model (also called hypothesis) is hence:
 
@@ -76,6 +80,7 @@ We should not fit a straight line to this data because we do not want continuous
 
 One function we could fit to this data is the sigmoid function which has output between 0 and 1.
 
+```
      1 |            ___________
        |           /
 P(y=1) |          /
@@ -84,6 +89,7 @@ P(y=1) |          /
      0 |_______/_________
        |       |
       Bad     Good
+```
 
 Since the output of a sigmoid is always between 0 and 1 it can be interpreted as the probability that the given input is from the positive class. If the value is greater than or equal to 0.5 we output 1 (Good) otherwise we output 0 (Bad). 
 
@@ -118,7 +124,7 @@ This is a multiclass Classification Problem, and a great algorithm for solving s
 
 In Softmax Regression we build a model for each of the classes independently. For each class we ask "what is the probability this sample belongs to this class?". This can be known through the computation:
 
-$$P(y=j|x) = \frac{e^{W_j x + b_j}}{\sum_{k=1}^{K} e^{W_k x + b_k}}$$
+$$P(y=j\mid x) = \frac{e^{W_j x + b_j}}{\sum_{k=1}^{K} e^{W_k x + b_k}}$$
 
 We then simply proceed to choose the class with the highest probability of owning the sample.
 
@@ -131,16 +137,16 @@ That is softmax Regression.
 ## Gaussian Discriminant Analysis
 GDA is a binary classification algorithm but unlike all the previous algorithms it is what is called a Generative Learning Algorithm. 
 
-Logistic Regression and Softmax are a class of learning algorithms called Discriminative learning algorithms. Discriminative because they discriminate between a number of classes by modeling the probability $p(y|x)$.
+Logistic Regression and Softmax are a class of learning algorithms called Discriminative learning algorithms. Discriminative because they discriminate between a number of classes by modeling the probability $p(y \mid x)$.
 
-Generative Learning algorithms on the other hand model the probability $p(x|y)$. Having a model for $p(x|y)$ gives them the ability to generate new data points, hence the name Generative Learning algorithms.
+Generative Learning algorithms on the other hand model the probability $p(x \mid y)$. Having a model for $p(x \mid y)$ gives them the ability to generate new data points, hence the name Generative Learning algorithms.
 
-GDA assumes the distribution for $p(x|y)$ is Gaussian. This is not a far-fetched assumption as most of the data out there is Gaussian. However, if you know for a fact your data is definitely not Gaussian then GDA might fail and you probably should not use it. 
+GDA assumes the distribution for $p(x \mid y)$ is Gaussian. This is not a far-fetched assumption as most of the data out there is Gaussian. However, if you know for a fact your data is definitely not Gaussian then GDA might fail and you probably should not use it. 
 
-If $p(x|y)$ is Gaussian then using the Gaussian PDF we can compute:
+If $p(x \mid y)$ is Gaussian then using the Gaussian PDF we can compute:
 
-$$p(x|y=0) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_0)^T\Sigma^{-1}(x-\mu_0)\right)$$
-$$p(x|y=1) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1)\right)$$
+$$p(x\mid y=0) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_0)^T\Sigma^{-1}(x-\mu_0)\right)$$
+$$p(x\mid y=1) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1)\right)$$
 
 $$\mu_0 = \frac{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=0\} x^{(i)}}{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=0\}}$$
 
@@ -148,9 +154,9 @@ $$\mu_1 = \frac{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\} x^{(i)}}{\sum_{i=1}^m \math
 
 $$\Sigma = \frac{1}{m} \sum_{i=1}^m (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T$$
 
-With what we obtained we can apply Bayes Rule to find $p(y=1|x)$:
+With what we obtained we can apply Bayes Rule to find $p(y=1\mid x)$:
 
-$$p(y=1|x) = \frac{p(x|y=1) \cdot p(y=1)}{p(x)}$$
+$$p(y=1\mid x) = \frac{p(x\mid y=1) \cdot p(y=1)}{p(x)}$$
 
 $$\phi = \frac{1}{m} \sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\}$$
 
@@ -159,17 +165,17 @@ As you can see there is no optimization needed for this algorithm, hence gradien
 When should you use GDA over a discriminative algorithm like logistic regression? Generally if you have enough data you should use logistic regression as it is more robust, but for small amounts of data you think might be Gaussian, GDA is the better choice.
 
 ## Naive Bayes 
-Naive Bayes is similar to GDA except that we do not assume $p(x|y)$ is Gaussian. Rather we compute it from the data.
+Naive Bayes is similar to GDA except that we do not assume $p(x \mid y)$ is Gaussian. Rather we compute it from the data.
 
 $$\phi_y = \frac{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\}}{m}$$
 
 $$\phi_{j|y=1} = \frac{\sum_{i=1}^m \mathbb{1}\{x_j^{(i)}=1 \land y^{(i)}=1\}}{\sum_{i=1}^m \mathbb{1}\{y^{(i)}=1\}}$$
 
-$$p(y=1|x) = \frac{p(x|y=1)p(y=1)}{p(x)}$$
+$$p(y=1\mid x) = \frac{p(x\mid y=1)p(y=1)}{p(x)}$$
 
 Naive Bayes assumes that the features are conditionally independent:
 
-$$p(x|y) = \prod_{j=1}^{n} p(x_j|y)$$
+$$p(x\mid y) = \prod_{j=1}^{n} p(x_j\mid y)$$
 
 ## Support Vector Machines 
 Support vector machines are one of the most important algorithms in ML. They can be used both for classification and regression. 
@@ -183,6 +189,7 @@ What makes SVMs special is that they have the capacity to learn a non-linear dec
 | 1  | 0  |     1     |
 | 1  | 1  |     0     |
 
+```
 x2
 ^
 |  1(x)    0(o)
@@ -190,9 +197,11 @@ x2
 |  0(o)    1(x)
 |____________> x1
    (No straight line can separate x and o)
+```
 
 There is no possible straight line that can accurately separate the two classes. The only possible way to separate the two classes is with a non-linear function.
 
+```
 x2
 ^
 |  1(x)  /  0(o)
@@ -201,6 +210,7 @@ x2
 |  0(o)  /  1(x)
 |_______/_____> x1
 (A non-linear boundary wraps around the classes)
+```
 
 What SVMs look for is the optimal hyperplane which separates the classes (this will be a straight line if the data is linearly separable). 
 
@@ -263,6 +273,7 @@ Unsupervised learning works on training data for which we do not have the ground
 ## K Means Clustering
 K-means is a clustering algorithm whose goal is to group similar data points together into clusters. Suppose we have the data:
 
+```
 Feature 2
   ^
   |   xx      oo
@@ -272,6 +283,7 @@ Feature 2
   |      ++
   |     +++
   |_________________> Feature 1
+```
 
 Given a value k, the goal of the algorithm is to form k distinct clusters each containing similar items. The algorithm is very straightforward:
 
@@ -288,14 +300,14 @@ The MoG algorithm extends the concepts of k-means to be probabilistic. Here we a
 
 First of all, if we had the labels we would know which Gaussian each datapoint belongs to and that would be the GDA algorithm we talked about earlier.
 
-We do not have the labels so we suppose there is a latent variable z which is not observed and the distribution of $x_i|z_i$ is: 
+We do not have the labels so we suppose there is a latent variable z which is not observed and the distribution of $x_i\mid z_i$ is: 
 
 $$z^{(i)} \sim \text{Multinomial}(\phi)$$
-$$x^{(i)}|z^{(i)}=j \sim \mathcal{N}(\mu_j, \Sigma_j)$$
+$$x^{(i)}\mid z^{(i)}=j \sim \mathcal{N}(\mu_j, \Sigma_j)$$
 
 We do not know z so we try to guess it given what we already know about the data.
 
-$$w_j^{(i)} = p(z^{(i)}=j|x^{(i)}; \phi, \mu, \Sigma) = \frac{p(x^{(i)}|z^{(i)}=j; \mu, \Sigma)p(z^{(i)}=j; \phi)}{\sum_{l=1}^k p(x^{(i)}|z^{(i)}=l; \mu, \Sigma)p(z^{(i)}=l; \phi)}$$
+$$w_j^{(i)} = p(z^{(i)}=j\mid x^{(i)}; \phi, \mu, \Sigma) = \frac{p(x^{(i)}\mid z^{(i)}=j; \mu, \Sigma)p(z^{(i)}=j; \phi)}{\sum_{l=1}^k p(x^{(i)}\mid z^{(i)}=l; \mu, \Sigma)p(z^{(i)}=l; \phi)}$$
 
 Now we can use MLE to update the model parameters:
 
@@ -347,16 +359,16 @@ And now we have a much easier time fitting other algorithms to this data.
 
 So how do we find the values of $\Lambda$, z and $\Psi$? Again we get to use our friend Expectation Maximization (Factor Analysis is a standard case for EM).
 
-In the E step we start with random estimates of $\Lambda$ and $\Psi$, then assume $p(z|x_n)$ is Gaussian and compute it using the Gaussian PDF.
+In the E step we start with random estimates of $\Lambda$ and $\Psi$, then assume $p(z\mid x_n)$ is Gaussian and compute it using the Gaussian PDF.
 
 In the M step we update the values of $\Lambda$ and $\Psi$:
 
-$$\Lambda = \left[ \sum_{i=1}^m (x^{(i)} - \mu) \mathbb{E}[z^{(i)}|x^{(i)}]^T \right] \left[ \sum_{i=1}^m \mathbb{E}[z^{(i)}z^{(i)T}|x^{(i)}] \right]^{-1}$$
+$$\Lambda = \left[ \sum_{i=1}^m (x^{(i)} - \mu) \mathbb{E}[z^{(i)}\mid x^{(i)}]^T \right] \left[ \sum_{i=1}^m \mathbb{E}[z^{(i)}z^{(i)T}\mid x^{(i)}] \right]^{-1}$$
 
-$$\Psi = \frac{1}{m} \text{diag} \left( \sum_{i=1}^m (x^{(i)} - \mu)(x^{(i)} - \mu)^T - \Lambda \mathbb{E}[z^{(i)}|x^{(i)}] (x^{(i)} - \mu)^T \right)$$
+$$\Psi = \frac{1}{m} \text{diag} \left( \sum_{i=1}^m (x^{(i)} - \mu)(x^{(i)} - \mu)^T - \Lambda \mathbb{E}[z^{(i)}\mid x^{(i)}] (x^{(i)} - \mu)^T \right)$$
 
 
-$$p(z|x) = \mathcal{N}(\mu_{z|x}, \Sigma_{z|x})$$
+$$p(z\mid x) = \mathcal{N}(\mu_{z\mid x}, \Sigma_{z\mid x})$$
 
 Factor Analysis is essentially just probabilistic PCA.
 
@@ -389,6 +401,7 @@ Feature engineering is one step ahead of that, where we come up with our own fea
 
 This is the major problem of ML models; when they do not find the optimal model they tend to either underfit or overfit. Underfitting means the model did not learn the patterns in the data properly and hence makes wrong predictions. Overfitting on the other hand means the model memorised the patterns in the training data and cannot generalise to unseen data.
 
+```
 Error
   ^
   | \          /  <-- Test Error
@@ -400,9 +413,11 @@ Error
   |
   |____________________> Model Complexity
    Underfit   Optimum    Overfit
+```
 
 The symptom for underfitting is when the training loss is very high, meaning the model cannot make predictions even on the training data it is seeing.
 
+```
 Loss
   ^
   |------------------ Test Loss
@@ -410,9 +425,11 @@ Loss
   |------------------ Training Loss
   | (Both High)
   |____________________> Epochs
+```
 
 The symptom for overfitting is very low training loss but high test loss, which means the model does very well on the data it has memorised but cannot do well on unseen data.
 
+```
 Loss
   ^
   |        __________ Test Loss (High)
@@ -420,6 +437,7 @@ Loss
   |     /
   |____/_____________ Training Loss (Low)
   |____________________> Epochs
+```
 
 The reasons for underfitting include:
     - The model is too simple. Like fitting a straight line to data that has a quadratic relationship between features and target.
@@ -460,3 +478,15 @@ You have to determine if your optimisation algorithm is not converging or if it 
 
 # Conclusion
 That was our brief tour of the ML landscape. Thanks for reading and sticking through. Stay tuned for the RL and Neural Network articles coming soon. See ya.
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  };
+</script>
