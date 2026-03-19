@@ -37,7 +37,7 @@ constexpr short DISPLAY_HEIGHT = 32;
 constexpr short DISPLAY_WIDTH = 64;
 constexpr short TIMER_FREQ = 60;
 constexpr short CLOCK_SPEED = 700;
-//
+
 typedef struct chip8_context {
   std::vector<unsigned char> mem; // 4096 bytes of memory
   std::stack<uint16_t> st;        // 16 bit stack
