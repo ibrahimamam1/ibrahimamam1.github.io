@@ -1,6 +1,46 @@
 ## Introduction 
+When thinking about Artificial intelligence it is now common to think about neural networks and deep learning foremost. Deep learning has indeed prooven capable of solving complex task in a general way. However it is not the only way to inbue machines with intelligence, in fact for the longest of times it was not even the most popular and common method.
+
+There are whole classes of problems out there for which deep learning is simply not a suitable solution. The general characteristic of this problems are: lack of structured data or patterns in the data, difficulty in establishing clear optimisable objectives, need for interpretable, require deterministic rule following, etc. Examples of such problems are role playing games, sequential control and planning.
+
+Search is a powerful tool and a good match for such problems. The idea behind search is simple, a problem is represented as a state space and a solution to the problem is a path from a start state to a desired goal state. The first step of solving any problem through search is therefore task representation.
 
 ## Problem Representation
+The goal is to represent our problem as a state space with multiple nodes. Each node represents a single state we can be in. To find solutions we move from one state to the next until we find a desired goal state. A solution to the problem is hence a sequence of all the states we went through from the start state till we reach the goal state, otherwise called a path.
+
+Formally we define a problem as a 5 tupe $<S,A,T,s0,S_g>$ where,
+S $\rightarrow $ the set of all states.
+A $\rightarrow$ the set of actions we can take.
+T(s,a) $\rightarrow$ is a transition function that tells what new state we are in after taking action a in state s. 
+s0 $\rightarrow$ is the start state.
+$S_g$ is the set of goal states.
+
+### Example 1: Cleaning Robot
+Suppose we have a cleaning Robot whose task is to clean the house. We have two rooms in the house and we want both of them clean. The robot can move to any room and can also clean. 
+
+We can represent this problem as a simple state space, we can have a total of four states: both rooms are dirty, room 1 is clean but room 2 is dirty, room 2 is clean but room is dirty and both rooms are clean. Hence we can construct S to be:
+
+$S = {CC, CD, DC, DD}$
+
+The robot has three posible actions: go to room 1, go to room 2, and clean. We can then have A be:
+$A = {Go to room 1, Go to room 2, Clean}$
+
+let's assume initially both rooms are dirty hence, $s0 = DD$
+Our goal is for both room to be clean so we have only one goal state: $S_g = {CC}$
+
+The only thing left is to define the transition function:
+$T(DD1, Go to room 1) \rightarrow DD1$
+$T(DD1, Go to room 2) \rightarrow DD2$
+$T(DD1, Clean) \rightarrow CD1$
+$T(DD2, Go to room 1) \rightarrow DD1$
+$T(DD2, Go to room 2) \rightarrow DD2$
+$T(DD2, Clean) \rightarrow DC2$
+$T(CD1, Go to room 2) \rightarrow CD2$
+$T(CD2, Clean) \rightarrow CC2$
+
+
+
+### #xample 2: Missionaries and Cannibal
 
 ## Uninformed Search 
 
