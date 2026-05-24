@@ -121,7 +121,7 @@ $$S_g = \{(0, 0, 0)\} \quad \text{— everyone has crossed to the right bank.}$$
 
 A state is valid if missionaries are never outnumbered on either bank (unless there are zero missionaries on that bank).
 
-!()[assets/search/mc_state_space.png]
+!()[../assets/search/mc_state_space.png]
 
 **Finding a Solution with BFS**
 

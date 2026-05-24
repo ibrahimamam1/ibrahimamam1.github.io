@@ -3,5 +3,8 @@ desciption: A blog about Systems Programming and Reinforcement Learning
 #theme: jekyll-theme-minimal
 #remote_theme: b2a3e8/jekyll-theme-console
 remote_theme: jekyll/minima
+markdown: kramdown
+kramdown:
+  math_engine: null
 
 
